@@ -3,6 +3,8 @@ package com.oms.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,8 @@ import com.oms.utils.Wrapper;
 @RequestMapping("/v1/payment")
 public class PaymentInfoController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(PaymentInfoController.class);
+	
 	@Autowired
 	PaymentInfoService paymentInfoService;
 	
@@ -37,12 +41,14 @@ public class PaymentInfoController {
 	
 	@GetMapping("{id}")
 	public @ResponseBody Wrapper<PaymentInfo> getPayment(@PathVariable("id") long paymentId) {
+		logger.info("Received getPayment request with orderId=" + paymentId);
 		PaymentInfo payment = paymentInfoService.getPaymentInfoById(paymentId);
 		return Wrapper.wrap(payment);
 	}
 	
 	@PostMapping("/")
-	public Wrapper<HttpStatus> addPayment(@RequestBody Payment payment) {    
+	public Wrapper<HttpStatus> addPayment(@RequestBody Payment payment) {
+		logger.info("Received addPayment request with " + payment.toString());
 		OrderInfo orderInfo =  orderInfoService.getOrderInfoById(payment.getOrderId());
 		CustomerInfo customerInfo = orderInfo.getCustomerInfo();
 		orderInfo.setAmount(orderInfo.getAmount() - payment.getAmount());

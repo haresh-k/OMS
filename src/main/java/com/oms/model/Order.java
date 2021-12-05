@@ -23,6 +23,9 @@ public class Order {
 	public void setCustomerId(long customerId) {
 		this.customerId = customerId;
 	}
-	
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", amount=" + amount + ", customerId=" + customerId + "]";
+	}
 	
 }

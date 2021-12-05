@@ -3,6 +3,8 @@ package com.oms.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,8 @@ import com.oms.utils.Wrapper;
 @RequestMapping("/v1/order")
 public class OrderInfoController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(OrderInfoController.class);
+	
 	@Autowired
 	OrderInfoService orderInfoService;
 	
@@ -32,12 +36,14 @@ public class OrderInfoController {
 	
 	@GetMapping("{id}")
 	public @ResponseBody Wrapper<OrderInfo> getOrder(@PathVariable("id") long orderId) {
+		logger.info("Received getOrder request with orderId=" + orderId);
 		OrderInfo order = orderInfoService.getOrderInfoById(orderId);
 		return Wrapper.wrap(order);
 	}
 	
 	@PostMapping("/")
 	public Wrapper<HttpStatus> addOrder(@RequestBody Order order) {
+		logger.info("Received addOrder request with " + order.toString());
 		CustomerInfo customerInfo = customerInfoService.getCustomerInfoById(order.getCustomerId());
 		customerInfo.setCustomerBalance(customerInfo.getCustomerBalance() - order.getAmount());
 		OrderInfo orderInfo = new OrderInfo();

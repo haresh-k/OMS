@@ -22,5 +22,9 @@ public class Payment {
 	public void setOrderId(long orderId) {
 		this.orderId = orderId;
 	}
+	@Override
+	public String toString() {
+		return "Payment [id=" + id + ", amount=" + amount + ", orderId=" + orderId + "]";
+	}
 	
 }

@@ -73,5 +73,11 @@ public class OrderInfo {
 		this.payments = paymentInfo;
 		paymentInfo.forEach(entity -> entity.setOrderInfo(this));
 	}
+
+	@Override
+	public String toString() {
+		return "OrderInfo [id=" + id + ", amount=" + amount + ", customerInfo=" + customerInfo + ", payments="
+				+ payments + "]";
+	}
 	
 }

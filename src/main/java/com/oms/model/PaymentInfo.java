@@ -54,5 +54,10 @@ public class PaymentInfo {
 	public void setOrderInfo(OrderInfo orderInfo) {
 		this.orderInfo = orderInfo;
 	}
+
+	@Override
+	public String toString() {
+		return "PaymentInfo [id=" + id + ", amount=" + amount + ", orderInfo=" + orderInfo + "]";
+	}
 	
 }

@@ -67,4 +67,10 @@ public class CustomerInfo {
 		orders.forEach(entity -> entity.setCustomerInfo(this));
 	}
 
+	@Override
+	public String toString() {
+		return "CustomerInfo [id=" + id + ", customerName=" + customerName + ", customerBalance=" + customerBalance
+				+ ", orders=" + orders + "]";
+	}
+	
 }
