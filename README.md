@@ -15,8 +15,8 @@ java -jar build/libs/OMS-1.0.0.jar
 ```
 
 ## Extras
-* Change the `server.port` in `application.properties` file if 8083 is benig used already. 
-* Use (api-docs)[http://localhost:8083/swagger-ui/index.html?configUrl=/api-docs/swagger-config#/] to go through the available APIs.
+* If port `8083` is being used already, change the `server.port` in `application.properties` file. 
+* Use [api-docs](http://localhost:8083/swagger-ui/index.html?configUrl=/api-docs/swagger-config#/) to go through the available APIs.
 
 ## License
 No licensing until now.
