@@ -1,8 +1,4 @@
 Setup TODO as part of gradle tasks(If I have enough time :()
-Lombok boiler plates are not working - Need to check
-Return proper 200 http status
-Handle exceptions
+Lombok boiler plates are not working in eclipse(PS: Installed lombok already) - Need to check
 Add Unit tests
-Validations for data values
-Setup logger
 Add patch calls to provision updating of instances

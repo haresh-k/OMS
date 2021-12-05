@@ -6,7 +6,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +19,7 @@ import com.oms.model.Order;
 import com.oms.model.OrderInfo;
 import com.oms.service.CustomerInfoService;
 import com.oms.service.OrderInfoService;
+import com.oms.service.PayloadValidatorService;
 import com.oms.utils.Wrapper;
 
 @RestController
@@ -34,6 +34,9 @@ public class OrderInfoController {
 	@Autowired
 	CustomerInfoService customerInfoService;
 	
+	@Autowired
+	PayloadValidatorService payloadValidator;
+	
 	@GetMapping("{id}")
 	public @ResponseBody Wrapper<OrderInfo> getOrder(@PathVariable("id") long orderId) {
 		logger.info("Received getOrder request with orderId=" + orderId);
@@ -42,8 +45,9 @@ public class OrderInfoController {
 	}
 	
 	@PostMapping("/")
-	public Wrapper<HttpStatus> addOrder(@RequestBody Order order) {
+	public Wrapper<String> addOrder(@RequestBody Order order) {
 		logger.info("Received addOrder request with " + order.toString());
+		payloadValidator.isValidOrderPayload(order, orderInfoService);
 		CustomerInfo customerInfo = customerInfoService.getCustomerInfoById(order.getCustomerId());
 		customerInfo.setCustomerBalance(customerInfo.getCustomerBalance() - order.getAmount());
 		OrderInfo orderInfo = new OrderInfo();
@@ -59,6 +63,7 @@ public class OrderInfoController {
 			orderInfos.add(orderInfo);
 			customerInfo.setOrders(orderInfos);
 		}
-		return customerInfoService.addCustomer(customerInfo)? Wrapper.wrap(HttpStatus.CREATED) : Wrapper.wrap(HttpStatus.BAD_REQUEST);
+		customerInfoService.addCustomer(customerInfo);
+		return Wrapper.wrap(null);
 	}
 }

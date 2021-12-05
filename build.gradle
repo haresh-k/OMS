@@ -28,6 +28,12 @@ repositories {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 dependencies {
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '2.0.0.RELEASE'
 	testCompile("junit:junit")
