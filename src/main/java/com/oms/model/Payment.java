@@ -1,30 +1,30 @@
 package com.oms.model;
 
 public class Payment {
-	private long id;
-	private long amount;
-	private long orderId;
-	public long getId() {
+	private Long id;
+	private Long paymentAmount;
+	private Long orderId;
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-	public long getAmount() {
-		return amount;
+	public Long getPaymentAmount() {
+		return paymentAmount;
 	}
-	public void setAmount(long amount) {
-		this.amount = amount;
+	public void setPaymentAmount(Long paymentAmount) {
+		this.paymentAmount = paymentAmount;
 	}
-	public long getOrderId() {
+	public Long getOrderId() {
 		return orderId;
 	}
-	public void setOrderId(long orderId) {
+	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
 	}
 	@Override
 	public String toString() {
-		return "Payment [id=" + id + ", amount=" + amount + ", orderId=" + orderId + "]";
+		return "Payment [id=" + id + ", paymentAmount=" + paymentAmount + ", orderId=" + orderId + "]";
 	}
 	
 }

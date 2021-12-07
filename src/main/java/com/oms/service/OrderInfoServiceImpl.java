@@ -27,7 +27,6 @@ public class OrderInfoServiceImpl implements OrderInfoService{
 	@Override
 	@Transactional
 	public boolean isOrderExist(long orderId) {
-		// TODO Auto-generated method stub
 		return orderInfoRepository.existsById(orderId);
 	}
 	

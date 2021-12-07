@@ -24,7 +24,7 @@ public class CustomerInfo {
 	@Column(name="id")
 	private Long id;
 	
-	@Column(name="customer_name")
+	@Column(name="customer_name", nullable = false)
 	private String customerName;
 	
 	@Column(name="customer_wallet")

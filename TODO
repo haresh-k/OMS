@@ -1,4 +1,4 @@
 Setup TODO as part of gradle tasks(If I have enough time :()
 Lombok boiler plates are not working in eclipse(PS: Installed lombok already) - Need to check
-Add Unit tests
-Add patch calls to provision updating of instances
+Add patch calls to provision updating of instances(N/A)
+access tokens for APIs(N/A)

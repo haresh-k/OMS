@@ -22,6 +22,11 @@ import com.oms.service.OrderInfoService;
 import com.oms.service.PayloadValidatorService;
 import com.oms.utils.Wrapper;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/v1/order")
 public class OrderInfoController {
@@ -37,6 +42,11 @@ public class OrderInfoController {
 	@Autowired
 	PayloadValidatorService payloadValidator;
 	
+	@Operation(summary = "Get an order by passing id")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+	  @ApiResponse(responseCode = "400", description = "Payload validation errors", 
+	    content = @Content) })
 	@GetMapping("{id}")
 	public @ResponseBody Wrapper<OrderInfo> getOrder(@PathVariable("id") long orderId) {
 		logger.info("Received getOrder request with orderId=" + orderId);
@@ -44,15 +54,21 @@ public class OrderInfoController {
 		return Wrapper.wrap(order);
 	}
 	
+	@Operation(summary = "Create order by passing id, orderAmount and customer Id. [orderBalance is always mapped as negative orderAmount]")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Successfully created"),
+	  @ApiResponse(responseCode = "400", description = "Payload validation errors", 
+	    content = @Content) })
 	@PostMapping("/")
 	public Wrapper<String> addOrder(@RequestBody Order order) {
 		logger.info("Received addOrder request with " + order.toString());
 		payloadValidator.isValidOrderPayload(order, orderInfoService);
 		CustomerInfo customerInfo = customerInfoService.getCustomerInfoById(order.getCustomerId());
-		customerInfo.setCustomerBalance(customerInfo.getCustomerBalance() - order.getAmount());
+		customerInfo.setCustomerBalance(customerInfo.getCustomerBalance() - order.getOrderAmount());
 		OrderInfo orderInfo = new OrderInfo();
 		orderInfo.setId(order.getId());
-		orderInfo.setAmount(order.getAmount());
+		orderInfo.setOrderAmount(order.getOrderAmount());
+		orderInfo.setOrderBalance(-order.getOrderAmount());
 		orderInfo.setCustomerInfo(customerInfo);
 		if(customerInfo.getOrders().isEmpty()) {
 			 List<OrderInfo> orderInfos = new ArrayList<>();

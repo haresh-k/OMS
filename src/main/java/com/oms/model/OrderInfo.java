@@ -28,8 +28,11 @@ public class OrderInfo {
 	@Column(name="id")
 	private Long id;
 	
-	@Column(name="amount")
-	private Long amount;
+	@Column(name="order_amount")
+	private Long orderAmount;
+	
+	@Column(name="order_balance")
+	private Long orderBalance;
 	
 	@ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
@@ -49,12 +52,20 @@ public class OrderInfo {
 		this.id = id;
 	}
 
-	public Long getAmount() {
-		return amount;
+	public Long getOrderAmount() {
+		return orderAmount;
 	}
 
-	public void setAmount(Long amount) {
-		this.amount = amount;
+	public void setOrderAmount(Long orderAmount) {
+		this.orderAmount = orderAmount;
+	}
+
+	public Long getOrderBalance() {
+		return orderBalance;
+	}
+
+	public void setOrderBalance(Long orderBalance) {
+		this.orderBalance = orderBalance;
 	}
 
 	public CustomerInfo getCustomerInfo() {
@@ -76,8 +87,8 @@ public class OrderInfo {
 
 	@Override
 	public String toString() {
-		return "OrderInfo [id=" + id + ", amount=" + amount + ", customerInfo=" + customerInfo + ", payments="
-				+ payments + "]";
+		return "OrderInfo [id=" + id + ", orderAmount=" + orderAmount + ", orderBalance=" + orderBalance + ", customerInfo="
+				+ customerInfo + ", payments=" + payments + "]";
 	}
-	
+
 }

@@ -24,6 +24,11 @@ import com.oms.service.PayloadValidatorService;
 import com.oms.service.PaymentInfoService;
 import com.oms.utils.Wrapper;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/v1/payment")
 public class PaymentInfoController {
@@ -42,6 +47,11 @@ public class PaymentInfoController {
 	@Autowired
 	PayloadValidatorService payloadValidator;
 	
+	@Operation(summary = "Get a payment by passing id")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+	  @ApiResponse(responseCode = "400", description = "Payload validation errors", 
+	    content = @Content) })
 	@GetMapping("{id}")
 	public @ResponseBody Wrapper<PaymentInfo> getPayment(@PathVariable("id") long paymentId) {
 		logger.info("Received getPayment request with orderId=" + paymentId);
@@ -49,17 +59,22 @@ public class PaymentInfoController {
 		return Wrapper.wrap(payment);
 	}
 	
+	@Operation(summary = "Create payment by passing id, paymentAmount and orderId")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Successfully created"),
+	  @ApiResponse(responseCode = "400", description = "Payload validation errors", 
+	    content = @Content) })
 	@PostMapping("/")
 	public Wrapper<String> addPayment(@RequestBody Payment payment) {
 		logger.info("Received addPayment request with " + payment.toString());
 		payloadValidator.isValidPaymentPayload(payment, paymentInfoService);
 		OrderInfo orderInfo =  orderInfoService.getOrderInfoById(payment.getOrderId());
 		CustomerInfo customerInfo = orderInfo.getCustomerInfo();
-		orderInfo.setAmount(orderInfo.getAmount() - payment.getAmount());
-		customerInfo.setCustomerBalance(customerInfo.getCustomerBalance() + payment.getAmount());
+		orderInfo.setOrderBalance(orderInfo.getOrderBalance() + payment.getPaymentAmount());
+		customerInfo.setCustomerBalance(customerInfo.getCustomerBalance() + payment.getPaymentAmount());
 		PaymentInfo paymentInfo = new PaymentInfo();
 		paymentInfo.setId(payment.getId());
-		paymentInfo.setAmount(payment.getAmount());
+		paymentInfo.setPaymentAmount(payment.getPaymentAmount());
 		paymentInfo.setOrderInfo(orderInfo);
 		if(orderInfo.getPayments().isEmpty()) {
 			List<PaymentInfo> paymentInfos = new ArrayList<>();

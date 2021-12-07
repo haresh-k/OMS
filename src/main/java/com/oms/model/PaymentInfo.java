@@ -22,8 +22,8 @@ public class PaymentInfo {
 	@Column(name="id")
 	private Long id;
 	
-	@Column(name="amount")
-	private Long amount;
+	@Column(name="payment_amount")
+	private Long paymentAmount;
 	
 	@ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false)
@@ -39,12 +39,12 @@ public class PaymentInfo {
 		this.id = id;
 	}
 
-	public Long getAmount() {
-		return amount;
+	public Long getPaymentAmount() {
+		return paymentAmount;
 	}
 
-	public void setAmount(Long amount) {
-		this.amount = amount;
+	public void setPaymentAmount(Long paymentAmount) {
+		this.paymentAmount = paymentAmount;
 	}
 
 	public OrderInfo getOrderInfo() {
@@ -57,7 +57,7 @@ public class PaymentInfo {
 
 	@Override
 	public String toString() {
-		return "PaymentInfo [id=" + id + ", amount=" + amount + ", orderInfo=" + orderInfo + "]";
+		return "PaymentInfo [id=" + id + ", paymentAmount=" + paymentAmount + ", orderInfo=" + orderInfo + "]";
 	}
 	
 }
